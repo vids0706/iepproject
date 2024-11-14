@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Recommendations</title>
+    <style>
+       /* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Body Styling - Gradient background */
+body {
+    background: linear-gradient(135deg, #0288d1, #81d4fa); /* Gradient Blue */
+    color: #4e4e4e;
+    padding: 20px;
+    font-size: 16px;
+    min-height: 100vh; /* Full height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* To remove extra white space */
+}
+
+/* Heading Styles */
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #cce2ee; /* Contrasting blue color */
+    font-family: 'Georgia', serif;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Styling */
+form {
+    background-color: rgba(255, 255, 255, 0.8); /* Slight transparency for the form */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Label Styles */
+label {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #0288d1;
+    text-align: center;
+}
+
+/* Input Field Styling */
+input[type="text"] {
+    padding: 12px;
+    width: 80%;
+    border: 2px solid #0288d1;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Input Focus */
+input[type="text"]:focus {
+    border-color: #01579b;
+    transform: scale(1.05);
+}
+
+/* Button Styling */
+button {
+    padding: 12px 25px;
+    background-color: #0288d1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 10px;
+}
+
+/* Button Hover */
+button:hover {
+    background-color: #01579b;
+    transform: scale(1.1);
+}
+
+/* Food Recommendations List */
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 30px;
+    color: #f0f2f3;
+    font-family: 'Georgia', serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid for Recommendations */
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Dynamic grid */
+    gap: 20px;
+}
+
+/* Individual Food Item */
+li {
+    background-color: #ffffff; /* White background for contrast */
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 5px solid #0288d1; /* Bold blue left border */
+    font-size: 1.2rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 200px; /* Fixed height */
+    position: relative; /* For positioning "Click Me" button */
+}
+
+/* Hover Effect for Food Item */
+li:hover {
+    transform: translateY(-8px); /* Hover lift effect */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    background-color: #0288d1; /* Change background on hover */
+    color: white;
+}
+
+/* "Click Me" Button - Initially hidden */
+.click-me-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px); /* Initially hidden */
+    background-color: #f8f9fa;
+    color: rgb(8, 80, 139);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover Effect on List Item - Show "Click Me" Button */
+li:hover .click-me-btn {
+    opacity: 1; /* Show the "Click Me" button */
+    transform: translateX(-50%) translateY(0); /* Bring it up */
+}
+
+/* Footer Section */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.9rem;
+    color: #4e4e4e;
+}
+
+    </style>
+</head>
+<body>
+    <h1>Food Recommendation Based on Mood</h1>
+
+    <form action="/" method="POST">
+        <label for="mood">Enter your mood:</label>
+        <input type="text" id="mood" name="mood" required>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if food_recommendations %}
+        <h2>Food Recommendations:</h2>
+        <ul>
+        {% for item in food_recommendations %}
+            <li>
+                <span>{{ item.food }}</span>
+                <!-- "Click Me" button as a link -->
+                <a href="{{ item.recipe_url }}" class="click-me-btn" target="_blank">Click For Recipe</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
